@@ -28,7 +28,7 @@
 <meta property="og:description" content="此文长期更新3月8日  上午写了单链表，发现自己老犯低级错误：循环条件变量忘记改变，把地址返回给整型，要不是vs好用可能我甚至可能忘记添加;  下午写了会儿顺序表的算法题，还没刷完，以下总结出一些简单顺序表的做法思路吧：1、整体流程：（1）分析输入与输出。（2）分析整体流程：非法值检测啊，增删查改啊这些。（3）分析具体步骤，可为其单独写一个函数：   Tip：注意要画图理解2、常用方法：左移法常用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-08T02:08:41.000Z">
-<meta property="article:modified_time" content="2022-03-20T14:46:40.053Z">
+<meta property="article:modified_time" content="2022-03-23T07:52:28.080Z">
 <meta property="article:author" content="J0th3">
 <meta property="article:tag" content="-跨考">
 <meta name="twitter:card" content="summary">
@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-20 22:46:40" itemprop="dateModified" datetime="2022-03-20T22:46:40+08:00">2022-03-20</time>
+                <time title="修改时间：2022-03-23 15:52:28" itemprop="dateModified" datetime="2022-03-23T15:52:28+08:00">2022-03-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,13 +251,43 @@
  a、二叉平衡树的插入：<strong>每次</strong>都从插入点往回寻找<strong>最小不平衡子树（此处简称M）</strong>进行调整：<br>共四种调整情况：LL、RR、LR、RL-&gt;如RL指右子树中再插入一个左孩子导致不平衡<br>1）LL平衡旋转-右单旋转：对于子树DBEAC(中序）,根节点A的Balance为1即2A1，其左子树(L)B的左子树(L)D插入了新节点F，A-&gt;Balance变为2，子树DBEAC失去平衡，需进行<strong>一次右旋</strong>（A的左孩子<strong>B右上旋</strong>成为根节点，<strong>A右下旋</strong>成为B的右孩子，A的右孩子C仍连接A，<strong>B的右孩子E成为A的左孩子</strong>。新的子树为FDBEAC，B的Balance为1即3B2，子树FDBEAC恢复平衡。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//MLL右单旋转的代码实现</span><br><span class="line">f-lchild=p-&gt;rchild;	//f代表要旋转的父节点，即根节点A，**B的右孩子E成为A的左孩子**</span><br><span class="line">p-&gt;rchild=f;	//p代表要旋转的孩子节点，**A右下旋**成为B的右孩子</span><br><span class="line">gf-&gt;lchild/rchild=p;	//gf代表根节点上一级的父节点，A的左孩子**B右上旋**成为根节点</span><br></pre></td></tr></table></figure>
 2）RR平衡旋转-左单旋转：对于子树CAFBE(中序）,根节点A的Balance为-1即1A2，其右子树(R)B的右子树(R)D插入了新节点F，A-&gt;Balance变为-2，子树CAFBE失去平衡，需进行<strong>一次左旋</strong>（A的右孩子<strong>B左上旋</strong>成为根节点，<strong>A左下旋</strong>成为B的左孩子，A的左孩子C仍连接A，<strong>B的左孩子E成为A的右孩子</strong>。新的子树为CAEBDF，B的Balance为-1即2B3，子树CAEBDF恢复平衡。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//MRR左单旋转的代码实现</span><br><span class="line">f-rchild=p-&gt;lchild;	//f代表要旋转的父节点，即根节点A，**B的左孩子E成为A的右孩子**</span><br><span class="line">p-&gt;lchild=f;	//p代表要旋转的孩子节点，**A左下旋**成为B的左孩子</span><br><span class="line">gf-&gt;lchild/rchild=p;	//gf代表根节点上一级的父节点，右孩子**B左上旋**成为根节点</span><br></pre></td></tr></table></figure>
 3）LR平衡旋转-先左后右双旋转：对于子树DBEA()C，A为其根节点，在A的左子树(L)B的右子树(R)E之后插入一个节点F，需要对子树B进行一次左单旋转，再对子树A进行一次右单旋转。新的子树E为DB()EFAC-&gt;DB()EFAC,新的子树E的Balance为0即2E2。<br>4）RL平衡旋转-先右后左双旋转：过程与LR平衡旋转类似。<br> b、查找效率分析：AVL&lt;&#x3D;O(h),故求h极其重要，设nh表示深度为h的平衡树中含有的最少的节点数<br>1）n0&#x3D;NULL，n1&#x3D;1，nh&#x3D;nh-1 + nh-2 + 1&#x3D;&#x3D;&gt;对于节点数为n的平衡二叉树，最坏情况hmax为log2 n<br>故AVL&#x3D;O(log n)<blockquote>
-<p>An algorithm for the organization of information<br> （3）哈夫曼树与哈夫曼编码：<br>权带权路径长度：<strong>某节点</strong>的路径长度<em>该节点上的权值<br>树的带权路径长度：所有<strong>叶节点</strong>的路径长度</em>该节点上的权值（WPL,Weighted Path Length）<br>WPL&#x3D;i累加符号n wili<br>含有n个带权叶节点的二叉树中，<strong>WPL值最小者</strong>成为哈夫曼树，也称作最优二叉树。<br>1）哈夫曼树的构造：给定n个权值w1，…wn的节点，即n个带权子树（森林F）<br>1 取权值和最小的两个子树构造一个新的子树，新子树根节点权值记作两子树权值之和<br>2 重复1，直至森林F变为一棵树，即一颗哈夫曼树<br>2）一些特性：<br>1 初试节点均为叶节点，权值越小的几点路径长度越大<br>2 节点总数为2n-1，度总为2，<br>3 哈夫曼树并不唯一，单WPL必然相同且最优<br>3）哈夫曼编码：0&#x2F;1<br>1 对每个字符用等长的二进制位表示，则称其为固定长度编码，如ANCI码 A——0100 0001<br>2 允许对每个不同字符用不等长的二进制位，则称其为可变长度编码</p>
+<p>An algorithm for the organization of information</p>
+</blockquote>
+</li>
+</ul>
+<p> （3）哈夫曼树与哈夫曼编码：</p>
+<blockquote>
+<p>权带权路径长度：<strong>某节点</strong>的路径长度<em>该节点上的权值<br>树的带权路径长度：所有<strong>叶节点</strong>的路径长度</em>该节点上的权值（WPL,Weighted Path Length）<br>WPL&#x3D;i累加符号n wili<br>含有n个带权叶节点的二叉树中，<strong>WPL值最小者</strong>成为哈夫曼树，也称作最优二叉树。<br>1）哈夫曼树的构造：给定n个权值w1，…wn的节点，即n个带权子树（森林F）<br>1 取权值和最小的两个子树构造一个新的子树，新子树根节点权值记作两子树权值之和<br>2 重复1，直至森林F变为一棵树，即一颗哈夫曼树<br>2）一些特性：<br>1 初试节点均为叶节点，权值越小的几点路径长度越大<br>2 节点总数为2n-1，度总为2，<br>3 哈夫曼树并不唯一，单WPL必然相同且最优<br>3）哈夫曼编码：0&#x2F;1<br>1 对每个字符用等长的二进制位表示，则称其为固定长度编码，如ANCI码 A——0100 0001<br>2 允许对每个不同字符用不等长的二进制位，则称其为可变长度编码</p>
 <blockquote>
 <p>实例介绍：李华和李明计划在一场重要的考试中互通答案，这场考试共有100道选择题，每道选择题共有A，B，C，D四个选项，其中选项A共50道，选项B共20道，选项C共20道，选项D共10道，于是他们约定以咳嗽代表数字0，以哈欠代表数字1，此刻他们正在商讨一套编码方案。<br>首先李华想到了大名鼎鼎的C语言编码方案ANCI，但被李明立刻否决了，每个ANCI码包含8个二进制数，那么100道题目将需要他们的800个哈欠，太哈人了！随后李华立刻缩短了二进制数，毕竟他们只需要对四个字符(ABCD)进行编码呢！A:00,B:01,C10,D:11,于是李华惊喜地发现现在他们只需要200个哈欠就够了！但还有没有更优的方案呢？李明此时回忆起了刚学到的哈夫曼树的构造，它灵机一动，发现<strong>为字符编码的过程与哈夫曼树的构造过程相似</strong>，于是他以左孩子指针代表0，右孩子指针代表1，并以叶子作为ABCD，其各自在考试中的出现次数为权，构造出了一个哈夫曼树（最优二叉树），A:0,B:10,C:110,D:111，李华震惊地发现，他们只需打180个哈欠，so amazing！！！</p>
 </blockquote>
 </blockquote>
+<h3 id="3月23日"><a href="#3月23日" class="headerlink" title="3月23日"></a>3月23日</h3><p>拖沓了些，今天开始看图<br>一、图的基本概念<br>1、定义：图G有由顶点集V和边集E构成，记为G&#x3D;(V,E)。与之对应树的节点和分支</p>
+<blockquote>
+<ol>
+<li>有向图，G&#x3D;(V,E),V&#x3D;{1,2,3},E&#x3D;{&lt;1,2&gt;,&lt;2,3&gt;,&lt;2,1&gt;},&lt;1,2&gt;也称之为弧，即1&#x3D;&gt;2<br>无向图，G&#x3D;(V,E),V&#x3D;{1,2,3},E&#x3D;{(1,2),(2,3),(2,1)}</li>
+<li>一些概念<br>  度：顶点连接的顶点数，也称与顶点的关系数；对于有向图，度可划分为出度与入度。<br>  简单图：顶点关系不重复且不指向自身的图<br>  完全图：对于无向图，任意两顶点之间存在关系(边)，边个数为n(n+1)&#x2F;2,n即定点数。对于有向图，任意两顶点间存在方向相反的两条边，边数为n(n-1),n即顶点数<br>  带权图：边含有权值，也称之为网；<br>  子图：与子树概念类似<br>  路径：一顶点到另一顶点的顶点序列，其长度为路径上边的个数。<blockquote>
+<p>  环：首尾顶点相同的路径称之为环<br>  简单路径：序列中顶点不重复的<br>  简单环：除首尾外序列中顶点不重复的<br>  连通图：<strong>无向图中</strong>，两节点间有路劲，称此二点联通;<strong>无向图中</strong>所有点都连通，称此图为连通图。<br>  连通分量：<strong>无向图中</strong>的<strong>极大</strong>(无法拓展为更大的连通子图)连通子图称为连通分量。<br>  强连通图与强连通子图与强连通分量：<strong>有向图中</strong>双向的连通图与连通子图</p>
+</blockquote>
 </li>
-</ul>
+</ol>
+</blockquote>
+<p>2、存储</p>
+<blockquote>
+<p>1)<strong>邻接矩阵</strong>存储</p>
+<blockquote>
+<p>定义：用一个一维数组存储图中的顶点信息，以一个二维数组存储图中边的信息，该二维数组称为邻接矩阵。<br>在邻接矩阵中，行标代表七点，列标代表终点，如A[1][0]&#x3D;1代表以矩阵的第一行第一列，即从一维数组中下标为一的顶点到下标为二的顶点的路径存在；反之<strong>为零则不存在</strong><br>对于带权图，以无穷表示不存在，以<strong>具体权值代表边的长度</strong>。矩阵的对角线意指自身到自身，令其为0代表自身到自身的路径为零。<br>其为顺序存储，S(n)&#x3D;O(n2),不适合存储稀疏的矩阵 </p>
+</blockquote>
+</blockquote>
+<pre><code class="bash">//C++实现
+char vertex[5] = &#123;&#39;A&#39;,&#39;B&#39;,&#39;C&#39;,&#39;D&#39;,&#39;E&#39;&#125;;    //存储图的顶点信息
+float Edge;    //邻接矩阵的声明
+for (int i=0;i&lt;5;++i)&#123;    //邻接矩阵的初试化
+    for int j=0;j&lt;5;+j)&#123;
+        Edge[i][j]=MAX;&#125;&#125;    //初始化，MAX即无穷
+
+
+</code></pre>
 
     </div>
 
@@ -341,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A4%E6%96%87%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0"><span class="nav-number">1.</span> <span class="nav-text">此文长期更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%888%E6%97%A5"><span class="nav-number">1.1.</span> <span class="nav-text">3月8日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8811%E6%97%A5"><span class="nav-number">1.2.</span> <span class="nav-text">3月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8812%E6%97%A5"><span class="nav-number">1.3.</span> <span class="nav-text">3月12日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8813%E6%97%A5"><span class="nav-number">1.4.</span> <span class="nav-text">3月13日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8816%E6%97%A5%E8%B5%B7"><span class="nav-number">1.5.</span> <span class="nav-text">3月16日起</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A4%E6%96%87%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0"><span class="nav-number">1.</span> <span class="nav-text">此文长期更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%888%E6%97%A5"><span class="nav-number">1.1.</span> <span class="nav-text">3月8日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8811%E6%97%A5"><span class="nav-number">1.2.</span> <span class="nav-text">3月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8812%E6%97%A5"><span class="nav-number">1.3.</span> <span class="nav-text">3月12日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8813%E6%97%A5"><span class="nav-number">1.4.</span> <span class="nav-text">3月13日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8816%E6%97%A5%E8%B5%B7"><span class="nav-number">1.5.</span> <span class="nav-text">3月16日起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E6%9C%8823%E6%97%A5"><span class="nav-number">1.6.</span> <span class="nav-text">3月23日</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

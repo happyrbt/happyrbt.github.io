@@ -28,7 +28,7 @@
 <meta property="og:description" content="此文长期更新3月8日  上午写了单链表，发现自己老犯低级错误：循环条件变量忘记改变，把地址返回给整型，要不是vs好用可能我甚至可能忘记添加;  下午写了会儿顺序表的算法题，还没刷完，以下总结出一些简单顺序表的做法思路吧：1、整体流程：（1）分析输入与输出。（2）分析整体流程：非法值检测啊，增删查改啊这些。（3）分析具体步骤，可为其单独写一个函数：   Tip：注意要画图理解2、常用方法：左移法常用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-08T02:08:41.000Z">
-<meta property="article:modified_time" content="2022-03-23T07:52:28.080Z">
+<meta property="article:modified_time" content="2022-03-23T11:03:06.390Z">
 <meta property="article:author" content="J0th3">
 <meta property="article:tag" content="-跨考">
 <meta name="twitter:card" content="summary">
@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-23 15:52:28" itemprop="dateModified" datetime="2022-03-23T15:52:28+08:00">2022-03-23</time>
+                <time title="修改时间：2022-03-23 19:03:06" itemprop="dateModified" datetime="2022-03-23T19:03:06+08:00">2022-03-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,18 +276,23 @@
 <blockquote>
 <p>1)<strong>邻接矩阵</strong>存储</p>
 <blockquote>
-<p>定义：用一个一维数组存储图中的顶点信息，以一个二维数组存储图中边的信息，该二维数组称为邻接矩阵。<br>在邻接矩阵中，行标代表七点，列标代表终点，如A[1][0]&#x3D;1代表以矩阵的第一行第一列，即从一维数组中下标为一的顶点到下标为二的顶点的路径存在；反之<strong>为零则不存在</strong><br>对于带权图，以无穷表示不存在，以<strong>具体权值代表边的长度</strong>。矩阵的对角线意指自身到自身，令其为0代表自身到自身的路径为零。<br>其为顺序存储，S(n)&#x3D;O(n2),不适合存储稀疏的矩阵 </p>
+<p>1)定义：用一个一维数组存储图中的顶点信息，以一个二维数组存储图中边的信息，该二维数组称为邻接矩阵。<br>在邻接矩阵中，行标代表七点，列标代表终点，如A[1][0]&#x3D;1代表以矩阵的第一行第一列，即从一维数组中下标为一的顶点到下标为二的顶点的路径存在；反之<strong>为零则不存在</strong><br>对于带权图，以无穷表示不存在，以<strong>具体权值代表边的长度</strong>。矩阵的对角线意指自身到自身，令其为0代表自身到自身的路径为零。<br>其为顺序存储，S(n)&#x3D;O(n2),不适合存储稀疏的矩阵<br>2)一些性质：对于无向图，邻接矩阵为一个对称矩阵，故只需存储上三角数据，且第i行的非零||非无穷元素个数即即第i个顶点的度。<br>3)对于有向图，第i行的非无穷元素个数为第i个顶点的出度，第i列的非零||非无穷元素的个数节第i个元素的入度。</p>
 </blockquote>
 </blockquote>
-<pre><code class="bash">//C++实现
-char vertex[5] = &#123;&#39;A&#39;,&#39;B&#39;,&#39;C&#39;,&#39;D&#39;,&#39;E&#39;&#125;;    //存储图的顶点信息
-float Edge;    //邻接矩阵的声明
-for (int i=0;i&lt;5;++i)&#123;    //邻接矩阵的初试化
-    for int j=0;j&lt;5;+j)&#123;
-        Edge[i][j]=MAX;&#125;&#125;    //初始化，MAX即无穷
-
-
-</code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//C++实现，并未采用结构的形式，实际运用中可将其放入结构</span><br><span class="line">char vertex[5] = &#123;<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>,<span class="string">&#x27;E&#x27;</span>&#125;;	//存储图的顶点信息</span><br><span class="line"><span class="built_in">float</span> Edge;	//邻接矩阵的声明</span><br><span class="line"><span class="keyword">for</span> (int i=0;i&lt;5;++i)&#123;	//邻接矩阵的初试化</span><br><span class="line">	<span class="keyword">for</span> int j=0;j&lt;5;+j)&#123;</span><br><span class="line">		Edge[i][j]=MAX;&#125;&#125;	//初始化，MAX即无穷</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>2)**邻接表：结合了顺序存储与链式存储,类似树的孩子表示法</p>
+<blockquote>
+<p>定义：为每个顶点Vi建立一个单链表，链式顺序存储结构</p>
+</blockquote>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//以下为无向表的邻接表法</span><br><span class="line">typedef struct ArcNode&#123;	//边/弧链表</span><br><span class="line">	int adjvex;	//弧所指向的节点下标AdjLish[]的下标</span><br><span class="line">	ArcNode *next;	//指向下一条弧</span><br><span class="line">&#125;ARcNode;</span><br><span class="line"></span><br><span class="line">typedef struct VNode&#123;	//顶点结构，顶点表</span><br><span class="line">	VertexType data;	//顶点信息</span><br><span class="line">	ArcNode *first;	//指向依附第一条弧</span><br><span class="line">&#125;VNode,AdjList[MaxVertexNum];	//顶点，顶点表</span><br><span class="line"></span><br><span class="line">typedef struct&#123;</span><br><span class="line">	AdjList vertices;	//顶点顺序表</span><br><span class="line">	int vexnum,arcnum;	//顶点总数，弧总数</span><br><span class="line">&#125;ALGrapg;	//邻接表形式存储的图</span><br></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>设顶点数量为V，弧的数量为E。tip：对于一个给定的图，其邻接表的表现形式不唯一，因为数组下标可以随便定义。<br>对于无向图的空间复杂度，由于弧在弧表与顶点表中各被定义一次，而顶点只在顶点表中定义一次，故S(n)&#x3D;O(V+2E)。再对于无向图的，若要求某个顶点的度，只需要读取顺序表(顶点表)，并遍历链表(弧表)，即可求出该顶点的度，同时也可以找出所有的相关顶点。<br>对于有向图，若两节点间无反向相反的两条弧，则S(n)&#x3D;O(V+E)。找出度，读取顺序表(顶点表)遍历链表(链表)，即可的出度与其指向的顶点。找入度以及总结所有相关的弧则麻烦，只能遍历所有顶点与弧表，其时间复杂度极大。</p>
+</blockquote>
+</blockquote>
+<p>小小总结：邻接矩阵适合存储稀疏图，邻接表适合存储稠密图。对于无向图，计算度&#x2F;寻找弧，邻接表更占优势。对于有向图，计算度&#x2F;寻找弧，两者都不太行。</p>
 
     </div>
 

@@ -162,6 +162,77 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/23/AVL-Tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="J0th3">
+      <meta itemprop="description" content="一个技术博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="J0th3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/23/AVL-Tree/" class="post-title-link" itemprop="url">AVL Tree</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-23 19:12:37 / 修改时间：22:30:14" itemprop="dateCreated datePublished" datetime="2022-03-23T19:12:37+08:00">2022-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">-记录</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="An-algorithm-for-the-organization-of-information"><a href="#An-algorithm-for-the-organization-of-information" class="headerlink" title="An algorithm for the organization of information"></a>An algorithm for the organization of information</h3><p>这篇论文讨论的是AVL-tree，即平衡二叉树。作者为 Georgy Adelson-Velsky 和 Evgenii Landis ，也因此后人纪念二人称平衡二叉树为AVL。</p>
+<p>问题陈述：在一个可解码三位址码（TAC，Three address code）的机器中，输入数据。数据被拆分为相应的不可拆分单位放入缓存区，以一个接一个的排列方式由机器读取。数据在内存中必须这样被读取，于是每当遍历数据搜索某个值和插入一个值时，都会产生极大量的运算，即T(N)&#x3D;O(N)。</p>
+<p>于是作者设想出了一种奇妙的算法，这种算法可以遍历和插入值所需要的运算。运用这种算法，不论是搜索，还是插入值，其时间复杂度都为O(log N),N为数据数据元素的数量。</p>
+<p>分析数据时,一小片内存空间被划分出来用于数据存放，这片空间里的数据元素依照一定的顺序排列。此外，输入数据存储的同时也为其分配另外一片空间，其中的每一个cell都相对应一个数据元素，</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/16/%E6%88%91%E7%9A%84%E5%8F%8D%E6%80%9D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -582,7 +653,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -595,7 +666,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -28,7 +28,7 @@
 <meta property="og:description" content="An algorithm for the organization of information这篇论文讨论的是AVL-tree，即平衡二叉树。作者为 Georgy Adelson-Velsky 和 Evgenii Landis ，也因此后人纪念二人称平衡二叉树为AVL。 问题陈述：在一个可解码三位址码（TAC，Three address code）的机器中，输入数据。数据被拆分为相应的不可拆分单">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-23T11:12:37.000Z">
-<meta property="article:modified_time" content="2022-03-23T14:30:14.505Z">
+<meta property="article:modified_time" content="2022-03-24T13:52:04.224Z">
 <meta property="article:author" content="J0th3">
 <meta property="article:tag" content="-论文">
 <meta name="twitter:card" content="summary">
@@ -188,10 +188,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-03-23 19:12:37 / 修改时间：22:30:14" itemprop="dateCreated datePublished" datetime="2022-03-23T19:12:37+08:00">2022-03-23</time>
+              <time title="创建时间：2022-03-23 19:12:37" itemprop="dateCreated datePublished" datetime="2022-03-23T19:12:37+08:00">2022-03-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-24 21:52:04" itemprop="dateModified" datetime="2022-03-24T21:52:04+08:00">2022-03-24</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -223,7 +229,15 @@
         <h3 id="An-algorithm-for-the-organization-of-information"><a href="#An-algorithm-for-the-organization-of-information" class="headerlink" title="An algorithm for the organization of information"></a>An algorithm for the organization of information</h3><p>这篇论文讨论的是AVL-tree，即平衡二叉树。作者为 Georgy Adelson-Velsky 和 Evgenii Landis ，也因此后人纪念二人称平衡二叉树为AVL。</p>
 <p>问题陈述：在一个可解码三位址码（TAC，Three address code）的机器中，输入数据。数据被拆分为相应的不可拆分单位放入缓存区，以一个接一个的排列方式由机器读取。数据在内存中必须这样被读取，于是每当遍历数据搜索某个值和插入一个值时，都会产生极大量的运算，即T(N)&#x3D;O(N)。</p>
 <p>于是作者设想出了一种奇妙的算法，这种算法可以遍历和插入值所需要的运算。运用这种算法，不论是搜索，还是插入值，其时间复杂度都为O(log N),N为数据数据元素的数量。</p>
-<p>分析数据时,一小片内存空间被划分出来用于数据存放，这片空间里的数据元素依照一定的顺序排列。此外，输入数据存储的同时也为其分配另外一片空间，其中的每一个cell都相对应一个数据元素，</p>
+<p>分析数据时,一小片内存空间被划分出来用于数据存放，这片空间里的数据元素依照一定的顺序排列。此外，输入数据存储的同时也为其分配另外一片空间，其中的每一个cell都相对应一个数据元素，这片空间叫做reference board,可能是一片索引空间吧。</p>
+<p>索引board实际上是一个二叉树，每个结点最多只有一个左&#x2F;右孩子，孩子还可以指向他自己的孩子(即这是一个递归结构)。此外，对于任意这颗树上存在父节点的节点，其离给定的祖先节点的距离相较于其父节点会更远。我们还可以设想出有那么一个没有父节点的根节点。这样，索引board里的元素应该按一定顺序对应着数据元素。</p>
+<p>索引board的每个cell各存储3个地址，其一指向相对应的数据元素空间，另外两个指向其相对应的左孩子和右孩子。如果一个cell没有左右孩子，则除指向数据元素的地址外，另外第地址即为0。根节点的地址存储在一个叫l的特殊cell中。</p>
+<p>我们称这颗树的任一序列为chain，在其中每个前面的cell都是后边的孩子。我们再将左分支或右分支的长度称为chain的最大长度，这个chain由给定节点的左&#x2F;右孩子组成。若chain’的长度与左右分支的长度都相同，那我们称这个分支是分支pivot。</p>
+<p>可允许的树必须满足左右分支长度之差小于1.</p>
+<p>我们给地址board划分了两种order。左分支更长，则称其为1.0。右分支更长，则称其为0.1。左右分支等长则我们将其称为0.0。此外没有孩子的节点等同于0.0。</p>
+<p>于是这个遍历算法，就是一个在任意时刻都是有个可允许的树。</p>
+<p>作者推理出当这颗树的高度为N时，其节点最少为3&#x2F;2log2 (n+1).</p>
+<p>接下来我们讨论对于给定值的检索。我们现在</p>
 
     </div>
 
@@ -432,6 +446,8 @@ $(document).ready(function() {
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

@@ -28,7 +28,7 @@
 <meta property="og:description" content="此文长期更新3月8日  上午写了单链表，发现自己老犯低级错误：循环条件变量忘记改变，把地址返回给整型，要不是vs好用可能我甚至可能忘记添加;  下午写了会儿顺序表的算法题，还没刷完，以下总结出一些简单顺序表的做法思路吧：1、整体流程：（1）分析输入与输出。（2）分析整体流程：非法值检测啊，增删查改啊这些。（3）分析具体步骤，可为其单独写一个函数：   Tip：注意要画图理解2、常用方法：左移法常用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-08T02:08:41.000Z">
-<meta property="article:modified_time" content="2022-03-23T11:03:06.390Z">
+<meta property="article:modified_time" content="2022-03-26T13:24:42.631Z">
 <meta property="article:author" content="J0th3">
 <meta property="article:tag" content="-跨考">
 <meta name="twitter:card" content="summary">
@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-23 19:03:06" itemprop="dateModified" datetime="2022-03-23T19:03:06+08:00">2022-03-23</time>
+                <time title="修改时间：2022-03-26 21:24:42" itemprop="dateModified" datetime="2022-03-26T21:24:42+08:00">2022-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -286,13 +286,71 @@
 <p>定义：为每个顶点Vi建立一个单链表，链式顺序存储结构</p>
 </blockquote>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//以下为无向表的邻接表法</span><br><span class="line">typedef struct ArcNode&#123;	//边/弧链表</span><br><span class="line">	int adjvex;	//弧所指向的节点下标AdjLish[]的下标</span><br><span class="line">	ArcNode *next;	//指向下一条弧</span><br><span class="line">&#125;ARcNode;</span><br><span class="line"></span><br><span class="line">typedef struct VNode&#123;	//顶点结构，顶点表</span><br><span class="line">	VertexType data;	//顶点信息</span><br><span class="line">	ArcNode *first;	//指向依附第一条弧</span><br><span class="line">&#125;VNode,AdjList[MaxVertexNum];	//顶点，顶点表</span><br><span class="line"></span><br><span class="line">typedef struct&#123;</span><br><span class="line">	AdjList vertices;	//顶点顺序表</span><br><span class="line">	int vexnum,arcnum;	//顶点总数，弧总数</span><br><span class="line">&#125;ALGrapg;	//邻接表形式存储的图</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//以下为无向表的邻接表法</span><br><span class="line">typedef struct ArcNode&#123;	//边/弧链表</span><br><span class="line">	int adjvex;	//弧所指向的节点下标AdjLish[]的下标</span><br><span class="line">	ArcNode *next;	//指向下一条弧</span><br><span class="line">&#125;ArcNode;</span><br><span class="line"></span><br><span class="line">typedef struct VNode&#123;	//顶点结构，顶点表</span><br><span class="line">	VertexType data;	//顶点信息</span><br><span class="line">	ArcNode *first;	//指向依附第一条弧</span><br><span class="line">&#125;VNode,AdjList[MaxVertexNum];	//顶点，顶点表</span><br><span class="line"></span><br><span class="line">typedef struct&#123;</span><br><span class="line">	AdjList vertices;	//顶点顺序表</span><br><span class="line">	int vexnum,arcnum;	//顶点总数，弧总数</span><br><span class="line">&#125;ALGrapg;	//邻接表形式存储的图</span><br></pre></td></tr></table></figure>
 <blockquote>
 <blockquote>
 <p>设顶点数量为V，弧的数量为E。tip：对于一个给定的图，其邻接表的表现形式不唯一，因为数组下标可以随便定义。<br>对于无向图的空间复杂度，由于弧在弧表与顶点表中各被定义一次，而顶点只在顶点表中定义一次，故S(n)&#x3D;O(V+2E)。再对于无向图的，若要求某个顶点的度，只需要读取顺序表(顶点表)，并遍历链表(弧表)，即可求出该顶点的度，同时也可以找出所有的相关顶点。<br>对于有向图，若两节点间无反向相反的两条弧，则S(n)&#x3D;O(V+E)。找出度，读取顺序表(顶点表)遍历链表(链表)，即可的出度与其指向的顶点。找入度以及总结所有相关的弧则麻烦，只能遍历所有顶点与弧表，其时间复杂度极大。</p>
 </blockquote>
 </blockquote>
-<p>小小总结：邻接矩阵适合存储稀疏图，邻接表适合存储稠密图。对于无向图，计算度&#x2F;寻找弧，邻接表更占优势。对于有向图，计算度&#x2F;寻找弧，两者都不太行。</p>
+<p><strong>小小总结</strong>：邻接矩阵适合存储稀疏图，邻接表适合存储稠密图。对于无向图，计算度&#x2F;寻找弧，邻接表更占优势。对于有向图，计算度&#x2F;寻找弧，两者都不太行。邻接矩阵最大缺点为O(N2)。临接表缺点，一为数据冗余，二位增删麻烦，三位查入弧依旧不方便</p>
+<blockquote>
+<p>3)十字链表法与邻接表法</p>
+<blockquote>
+<p>十字链表法：通过邻接表法改进，在顶点结构总将<strong>指向第一个弧的指针</strong>改为<strong>指向第一个头部相同的弧与指向第一个尾部相同的弧的指针</strong>，在弧的结构中，包括<strong>弧头、弧尾，头相同指针，尾相同指针</strong>。因此十字链表法仅适用于表示<strong>有向图</strong>，若均为单向弧则其S(N)&#x3D;O(V+N)。<br>邻接多重表法同样由邻接表法改进，<strong>顶点结构与邻接表相同</strong>，而弧结构则与十字链表法相同，同样其S(N)&#x3D;O(V+N);</p>
+</blockquote>
+</blockquote>
+<p><strong>小小总结</strong>：十字链表法与邻接多重表法的优点在于，一是进一步减少了数据的冗余，二是增删改查方便了许多，尤其是寻找入边变得简便了许多。</p>
+<p>3、图的操作：</p>
+<blockquote>
+<ol>
+<li>基本操作<blockquote>
+<p>tips：基本操作与存储结构密切相关,E指边的数量，M指节点的数量。<br>(1 Adjacent(G,x,y): 判断图G中是否包含(x,y)或&lt;x,y&gt;。bool型<br>对于邻接矩阵，无向图T(N)&#x3D;O(1);<br>对于邻接表，T(N)&#x3D;O(1)<del>O(V);<br>(2 Neighbors(G,x): 列出图G中与x邻接的边<br>对于邻接矩阵，检查整个行列，无向表和有向表T(N)&#x3D;O(V);<br>对于邻接表，无向表和有向表的出弧检查一个链表即可T(N)&#x3D;O(V),而对于有向图的入弧，则需遍历所有弧T(N)&#x3D;O(E)<br>(3 InsertVertex(G,x): 在图G中插入顶点x<br>对于邻接矩阵和邻接表，在顶点数组最后插入x即可，不考虑建立新的弧，T(N)&#x3D;O(1)<br>(4 DelVertex(G,x): 在图G中删除顶点x<br>对于邻接矩阵，<strong>不考虑强行删除</strong>，改为考虑在结构中增加一个bool型变量，判断该顶点是否为空，因此删除一个顶点的操作改为一元顺序存储中的bool量设为0，并将邻接矩阵中对应的行列值均改为0或无穷，即T(N)&#x3D;O(V);<br>对于邻接表，无向图中删除一个顶点可能需要遍历整个边表，故T(N)&#x3D;O(1)</del>O(E);有向图中则删出弧T(N)&#x3D;O(1)<del>O(V),删入弧则需要遍历整个弧表，T(N)&#x3D;O(E);<br>(5 AddEdge(G,x,y): 图G中若无(x,y)或&lt;x,y&gt;, 则插入<br>无论是邻接表邻接矩阵有向图无向图T(N)&#x3D;O(1)<br>(6 RemoveEdge(G,x,y): 图G中存在&lt;x,y&gt;或(x,y),则删除<br>对于邻接矩阵，T(N)&#x3D;O(1);对于邻接表，从表头遍历链表T(N)&#x3D;O(V);<br>(7 <strong>FirstNeighor(G,x)</strong>: 图G中顶点x若存在临界点，返回其第一个临界点，否则返回-1<br>对于邻接矩阵，只需遍历行列寻找到第一个一故T(N)&#x3D;O(1)</del>O(V);<br>对于邻接表，无向和入弧临界点均为O(1);检查入弧临接点则可能遍历整个弧表故T(N)&#x3D;O(1)~O(E)<br>(8 <strong>NextNeighbor(G,x,y)</strong>: 图G中顶点y为x的第一个临界点，寻找y的FirstNeighbor，返回，若无则返回-1.<br>其时间复杂度与ForstNeighbor相同<br>(9 Get_EdgeValue:(G,x,y): 图G中(x,y)或&lt;x,y&gt;存在，则返回其info。<br>(10 Set_EdgeValueL(G,x,y,v): 图G中(x,y)或&lt;x,y&gt;存在，则赋v值给info<br>(9与(10的核心在于判断边是否存在</p>
+</blockquote>
+</li>
+<li>图的遍历<blockquote>
+<p>(1 深度优先遍历(BFS,Breadth-First-Search)<br>a、与树的广度优先遍历(树的层次遍历)之间的联系<br>两者均依靠关系进入下一层，而树依赖的是孩子，图只能依赖函数FirstNeighbor和NextNeighbor;且树不会出现循环的情况，而树则可能出现循环。两者都需要一个辅助队列的帮助。<br>b、图的广度优先遍历要点<br>找到一个与顶点相邻的所有顶点，并且标记那些顶点被访问过，同时遍历访问的操作需要一个辅助队列而得以进行。<br>Tips：对于邻接矩阵，其广度优先遍历序列唯一</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">bool visited[MAX_VERTEX_NUM]	//标记访问数组，初始值均为<span class="literal">false</span></span><br><span class="line">void BFSTraverse(Graph G) &#123;//BFS遍历整个图</span><br><span class="line">	int i;</span><br><span class="line">	<span class="keyword">for</span>(i=0;i&lt;G.vexnum;i++)	&#123;//初始化整个标记数组为<span class="literal">false</span></span><br><span class="line">		visited[i]=FALSE;	&#125;</span><br><span class="line">	InitQueue(Q);	//创建并初始化辅助队列</span><br><span class="line">	<span class="keyword">for</span>(i=0;i&lt;G.vexnum;++i)&#123;	//遍历多个子图，子图间不连通</span><br><span class="line">		<span class="keyword">if</span>(!=visited[i])&#123;	//遇到未被访问过的节点则BFS</span><br><span class="line">			BFS(G,i);&#125;//for	&#125;//BFST，对于无向图，共调用BFS函数次数为连通分量数</span><br><span class="line">//广度优先遍历的C++实现</span><br><span class="line">void BFS(Graph G,int v)&#123;</span><br><span class="line">	visit(V);	//访问初始顶点</span><br><span class="line">	visited[V]=TRUE;	//每访问一个节点就将其标记值设为TRUE</span><br><span class="line">	Enqueue(Q,v);	//初始顶点入队</span><br><span class="line">	<span class="keyword">while</span>(!isEmpty(Q))&#123;	//遍历结束时结束循环</span><br><span class="line">		DeQueue(Q,v);	//队首顶点出队</span><br><span class="line">		<span class="keyword">for</span>(w=FirstNeighbor(G,v);w&gt;=0;w=NextNeighbor(G,v,w))	&#123;	//寻找已出队顶点的所有下一层顶点(NextNeighbor存在时其值唯一&gt;0)</span><br><span class="line">			<span class="keyword">if</span>(!visited[W]) &#123;	//若顶点被访问过，结束此层<span class="keyword">for</span>循环</span><br><span class="line">				visit(w);	//访问当前顶点</span><br><span class="line">				visited[w]=TRUE;	//标记为TRUE</span><br><span class="line">				EnQueue(Q,W);	//当前顶点入队	&#125;//if	&#125;//for	&#125;//while</span><br><span class="line">&#125;	//BFS</span><br></pre></td></tr></table></figure>
+<p><strong>BFS()手写思路分享</strong>:</p>
+<blockquote>
+<p>总体结构(双层循环+队列)：初始节点入队(Enqueue)-&gt;while广度层次控制(Dequeue)–for顶点层次控制(Enqueue)-&gt;结束.<br>访问策略:入队前访问或出队后访问<br>防止绕圈策略:创建visited[] bool型变量，在访问后修改visited变量;在非初始Enqueue时，添加if走向控制。<br>非连通图traverse:for循环控制每个节点都visited,若vistited[i]&#x3D;&#x3D;false,则BFS(G,i);<br>辅助接口:InitQueue(Q),EnQueue(Q,v),DeQuere(Q,v),Firstneighbor(G,x),NextNeighbor(G,x,y);visited[Graph.vexnum];<br>新增接口:BFS(G,x);BFS_Traverse(G);</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>c、BFS算法分析<br>最坏情况下一个顶点连接了其他所有的顶点，因此辅助队列要占用V-1个的空间即S(N)&#x3D;O(V);<br>邻接矩阵的T(N)&#x3D;v<em>v+v&#x3D;O(v</em>v),访问顶点时间复杂度对O(V),查找临界点需要遍历整行共V个弧，共V行。<br>邻接表的T(N)&#x3D;O(V+E),访问顶点V的时间，访问邻接点2E。<br>小结：BFS算法中的主要时间开销来自于顶点访问和邻接点的查找，主要的空间开销来自于队列。<br>d、广度优先生成树：即将广度优先遍历的边弧留下，舍弃其余，则可得到一颗树，我们将其称为广度优先生成树。邻接矩阵方式存储的图，其广度优先遍历序列时唯一的，其广度优先生成树也是唯一的。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>2)图的深度优先遍历(DFS，Depth-First-Search)<br>a、与树的深度优先遍历对比<br>图的深度优先遍历比较类似于树的先根遍历(即二叉树的先序遍历)，不同点在于图可能遇到已经访问过的节点，故需要对其进行访问标记。<br>b、图的深度遍历要点：<br>先遍历首个顶点，随后判断是否存在尚未访问的邻接顶点。同时在每次访问后将visited[]值设为TRUE。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">bool visited[MAX_VERTAX_NUM];</span><br><span class="line">void DFSTraverse(Graph G) &#123;//解决DFS只能遍历完一个连通分量的问题</span><br><span class="line">	int i;</span><br><span class="line">	<span class="keyword">for</span>(i=0;i&lt;G.bexnum;i++)	&#123;//初始化整个标记数组为<span class="literal">false</span></span><br><span class="line">		visited[i]=FALSE;	&#125;</span><br><span class="line">	InitQueue(Q);	//创建并初始化辅助队列</span><br><span class="line">	<span class="keyword">for</span>(i=0;i&lt;G.vexnum;++i)&#123;	//遍历多个子图，子图间不连通</span><br><span class="line">		<span class="keyword">if</span>(!=visited)&#123;	//遇到未被访问过的节点则DFS</span><br><span class="line">			DFS(G,i);&#125;//for	&#125;//BFST，对于无向图，共调用DFS函数次数为连通分量数</span><br><span class="line">void DFS(Graph G,int v)&#123;</span><br><span class="line">	visit(v);	//访问当前节点</span><br><span class="line">	visited[v]=TRUE;	//标记以访问的顶点</span><br><span class="line">	<span class="keyword">for</span>(w=FirstNeighbor(G,v);w&gt;=0;w=NextNeighbor(G,v,w))&#123;	//判断是否还有未访问邻接顶点</span><br><span class="line">		<span class="keyword">if</span>(!visited[w])&#123;</span><br><span class="line">			DFS(G,w);&#125;//if	&#125;//for	&#125;//DFS	//进入下一层递归</span><br></pre></td></tr></table></figure>
+<p><strong>DFS手写思路</strong><br>结构:访问”根”顶点-&gt;for广度控制–BFS递归(深度控制)(if)-&gt;结束<br>访问:先访问再递归(先“根”遍历)<br>防绕圈:if+visited;<br>Traverse:for+visited;<br>调用:FirstNeighbor(G,x);NextNeighbor(G,x,y);visited[Graph.vexnum];<br>c、DFS算法的性能分析<br>空间复杂度：主要来源于递归工作栈，最坏情况图为一个直链表，S(N)&#x3D;O(V);最好情况为一个顶点连接了所有其他的顶点，S(N)&#x3D;O(1);<br>时间复杂度：主要来源于访问顶点和各条边所需要的时间。故对于邻接矩阵，T(N)&#x3D;v+v<em>v&#x3D;O(v</em>v);对于邻接表，T(N)&#x3D;O(V+E)</p>
+<p>4、图的几种应用<br>1)最小生成树(最小代价树)：概念以及两种生成最小生成树的算法<br>概念：生成树是包含图中全部顶点的一个极小连通子图；<br>对于一个<strong>带权连通无向图G</strong>&#x3D;(V,E)，生成树不同，其树的权值(即边权之和)也不同。令R为G的所有生成树之集合，其中T为边权值之和最小的生成树，则称T为G的最小生成树(MST,Minimun-Spanning-Tree).</p>
+<blockquote>
+<p>一些性质:最小生成树可能不止一个，但权值之和最小这个值就一个。<br>连通图才能产生生成树，否则是生成森林<br>若一个连通图本身就是一个树，即不存在回路，则其本身就是最小生成树</p>
+</blockquote>
+<p>a、Prim算法(普利姆):T(N)&#x3D;O(v*v)，适合边稠密(E比较大)<br>每次都构建代价最小的生成树，直到所有顶点都纳入为止。<br>类比记忆：生成哈夫曼树，每次都构建权值和最小的树，直至纳入所有所有节点，哈夫曼树可运用于生成哈夫曼编码</p>
+<blockquote>
+<p>算法思路：构建isJoin数组标记是否加入顶点，构建lowCost数组标记上一个加入的顶点与当前顶点形成边的权。每一轮中，遍历一轮lowCost数组，修改对应的权值，并搜索除最小lowCost加入该顶点。每一轮遍历V个顶点，共遍历V-1轮。</p>
+</blockquote>
+<p>b、Kruskal算法:T(N)&#x3D;O(ELog E)，适合边稀疏(E比较小)<br>每次选择一条权值最小的边，使其两头连通，若两头已连通(可能已经多边连通)，则不选，如此直至所有节点连通。</p>
+<blockquote>
+<p>算法思路：先对每条边的权值进行排序，随后依序判断两顶点是否属于同一集合因此是否连接两顶点。排序E,判断log E和E轮，故总T(N)&#x3D;O(ELog E)</p>
+</blockquote>
+<p>5、最短路径</p>
+<blockquote>
+<p>总：单源最短路径问题(从一个顶点走到另外一个顶点怎么距离最短)：BFS算法(无权图);Dijkstra算法(带权图和无权图)<br>每对顶点间的最短路径(两个顶点相互靠经怎么走距离最短): Floyd算法(带权图、无权图)</p>
+</blockquote>
+<p>1)BFS(广度优先求无权图的单源最短路径)(不适合求带权图的最短路径)<br>对BFS算法的改造：主体为BFS算法，添加最短路径长度d数组以及path数组记录路径。每次visited后，将d值改为上一个顶点的d值+1(初始顶点d值初始化为0)，将path值改为上一个顶点</p>
+<p>2)Dijkstra算法(迪杰斯特拉)<br>迪杰斯特拉(45’):1930~2002,1972图灵奖得主,”goto有害”，Dijkstra最短路径算法<br>总体:final[];dist[];path[];int final_num&#x3D;1,mini&#x3D;v，i;主要结构为初始化和两层嵌套循环。</p>
+<blockquote>
+<p>a、final_num用于外层循环语句的控制,控制条件为final_all!&#x3D;Graph.vexnum,当所有顶点都找到最短路径时，结束外层循环;外层循环的目的在于标记v-1个顶点，故共执行v-1次。在内存循环结束后，若mini！&#x3D;v,则修改final[mini]&#x3D;TRUE;final_num++;v&#x3D;mini;<br>b、i用于内层循环,在内层块内初始化为0,控制条件为i&lt;Graph.vexnum,循环寻找dist最小的顶点，以mini指针标记，只有fianl[i]!&#x3D;TRUE时该节点可用mini标记。<br>c、final[]标记各顶点是否已经找到最短路径。初始化为(初始顶点final[v]&#x3D;TRUE,其余顶点fianl&#x3D;FALSE)。<br>d、dist[]用于存储当前路径带权长度，每一轮内循环遍历dist[]并根据当前v修改值，同时用mini指针标记最小dist<br>e、path[]用于存储当前dist[]所代表的路径的路径尾前驱，每当对dist[]值做出修改时，需要判断是否用mini标记，同时必须修改对应的path值。待Dij算法结束后可通过遍历读取对应的dist值和遍历path得出最短路径长度和最短路径。</p>
+</blockquote>
 
     </div>
 
@@ -504,6 +562,8 @@ $(document).ready(function() {
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
